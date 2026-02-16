@@ -15,21 +15,22 @@ patterns = [
 ]
 
 def CutOneLineTokens(line : str) -> list[str]:
-    out = [] #list that will hold output
+    out_list = [] #list that will hold output
     s = line #remaining text
 
     while s: #loop until string s is empty
         matched = False
 
         for ttype, pat in patterns:
-            m = pat.match(s)
-            if not m:
+            moutput = pat.match(s)
+            if not moutput:
                 continue #run through all pattern options, make sure the patterns all start with ^
 
-            tok = m.group(0) #extract token if match found
+            tok = moutput.group(0) #extract token if match found
 
-            if ttype != "whitespace": #ignore whitespaces so the output doesnt add them
-                #rename for output
+            if ttype != "whitespace": #ignore whitespaces so the output doesn't add them
+
+                #rename patterns for output
                 type_map ={
                     "String_literal" : "lit",
                     "Float_literal": "lit",
@@ -41,7 +42,7 @@ def CutOneLineTokens(line : str) -> list[str]:
                 }
                 out.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
-            s =s[m.end():] #s assigns to right after match
+            s =s[moutput.end():] #s assigns to right after match for next
             matched = True
             break #stop checking patterns b/c found next token
 
@@ -49,7 +50,7 @@ def CutOneLineTokens(line : str) -> list[str]:
         if not matched:
             out.append(f"<unknown,{s[0]}>")
             s =s[1:]
-    return out
+    return out_list
 
 
 #test lines
