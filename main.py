@@ -4,7 +4,7 @@ import re
 #Robert Huntington
 
 patterns = [
-    ("whitespace", re.compile(r"")),
+    ("whitespace", re.compile(r"^\s+")),
     ("String_literal", re.compile(r"")),
     ("Float_literal", re.compile(r"")),
     ("Int_literal", re.compile(r"")),
@@ -15,20 +15,20 @@ patterns = [
 ]
 
 def CutOneLineTokens(line : str) -> list[str]:
-    out = []
-    s = line
+    out = [] #list that will hold output
+    s = line #remaining text
 
-    while s:
+    while s: #loop until string s is empty
         matched = False
 
         for ttype, pat in patterns:
             m = pat.match(s)
             if not m:
-                continue
+                continue #run through all pattern options, make sure the patterns all start with ^
 
-            tok = m.group(0)
+            tok = m.group(0) #extract token if match found
 
-            if ttype != "whitespace": #ignore leading whitespace
+            if ttype != "whitespace": #ignore whitespaces so the output doesnt add them
                 #rename for output
                 type_map ={
                     "String_literal" : "lit",
@@ -41,10 +41,11 @@ def CutOneLineTokens(line : str) -> list[str]:
                 }
                 out.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
-            s =s[m.end():] #cut token off
+            s =s[m.end():] #s assigns to right after match
             matched = True
-            break
+            break #stop checking patterns b/c found next token
 
+        # keeps loop from getting stuck on unknown characters
         if not matched:
             out.append(f"<unknown,{s[0]}>")
             s =s[1:]
