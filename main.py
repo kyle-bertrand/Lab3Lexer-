@@ -5,13 +5,13 @@ import re
 
 patterns = [
     ("whitespace", re.compile(r"^\s+")),
-    ("String_literal", re.compile(r"")),
-    ("Float_literal", re.compile(r"")),
-    ("Int_literal", re.compile(r"")),
-    ("Operator", re.compile(r"")),
-    ("Seperator", re.compile(r"")),
-    ("Keyword", re.compile(r"")),
-    ("Identifier", re.compile(r""))
+    ("String_literal", re.compile(r"^")),
+    ("Float_literal", re.compile(r"^")),
+    ("Int_literal", re.compile(r"^")),
+    ("Operator", re.compile(r"^")),
+    ("Seperator", re.compile(r"^")),
+    ("Keyword", re.compile(r"^")),
+    ("Identifier", re.compile(r"^"))
 ]
 
 def CutOneLineTokens(line : str) -> list[str]:
