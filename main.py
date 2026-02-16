@@ -6,11 +6,11 @@ import re
 patterns = [
     ("whitespace", re.compile(r"^\s+")),
     ("String_literal", re.compile(r"^")),
-    ("Float_literal", re.compile(r"^")),
-    ("Int_literal", re.compile(r"^")),
-    ("Operator", re.compile(r"^")),
+    ("Float_literal", re.compile(r"^\d+\.\d+$")),
+    ("Int_literal", re.compile(r"^\d+$")),
+    ("Operator", re.compile(r"^[+=>*]")),
     ("Seperator", re.compile(r"^")),
-    ("Keyword", re.compile(r"^")),
+    ("Keyword", re.compile(r"^(if|else|int|float)\b")),
     ("Identifier", re.compile(r"^"))
 ]
 
