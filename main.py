@@ -40,7 +40,7 @@ def CutOneLineTokens(line : str) -> list[str]:
                     "Keyword": "key",
                     "Identifier": "id",
                 }
-                out.append(f"<{type_map.get(ttype,ttype)},{tok}>")
+                moutput.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
             s =s[moutput.end():] #s assigns to right after match for next
             matched = True
@@ -48,7 +48,7 @@ def CutOneLineTokens(line : str) -> list[str]:
 
         # keeps loop from getting stuck on unknown characters
         if not matched:
-            out.append(f"<unknown,{s[0]}>")
+            moutput.append(f"<unknown,{s[0]}>")
             s =s[1:]
     return out_list
 
@@ -63,7 +63,7 @@ tests = [
 ]
 
 for line in tests:
-    out = CutOneLineTokens(line)
+    moutput = CutOneLineTokens(line)
     print(f"Test input string: {line}")
-    print(f"Output <type,token> list: {out}")
+    print(f"Output <type,token> list: {moutput}")
     print()
