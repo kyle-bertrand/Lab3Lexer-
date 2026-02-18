@@ -5,13 +5,13 @@ import re
 
 patterns = [
     ("whitespace", re.compile(r"^\s+")),
-    ("String_literal", re.compile(r"^")),
-    ("Float_literal", re.compile(r"^\d+\.\d+$")),
-    ("Int_literal", re.compile(r"^\d+$")),
+    ("String_literal", re.compile(r'^"[^"\n]*"')),
+    ("Float_literal", re.compile(r"^\d+\.\d+")),
+    ("Int_literal", re.compile(r"^\d+")),
     ("Operator", re.compile(r"^[+=>*]")),
-    ("Seperator", re.compile(r"^")),
+    ("Seperator", re.compile(r"^[():;]")),
     ("Keyword", re.compile(r"^(if|else|int|float)\b")),
-    ("Identifier", re.compile(r"^"))
+    ("Identifier", re.compile(r"^[A-Za-z_][A-Za-z0-9_]*"))
 ]
 
 def CutOneLineTokens(line : str) -> list[str]:
@@ -40,7 +40,7 @@ def CutOneLineTokens(line : str) -> list[str]:
                     "Keyword": "key",
                     "Identifier": "id",
                 }
-                moutput.append(f"<{type_map.get(ttype,ttype)},{tok}>")
+                out_list.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
             s =s[moutput.end():] #s assigns to right after match for next
             matched = True
@@ -48,7 +48,7 @@ def CutOneLineTokens(line : str) -> list[str]:
 
         # keeps loop from getting stuck on unknown characters
         if not matched:
-            moutput.append(f"<unknown,{s[0]}>")
+            out_list.append(f"<unknown,{s[0]}>")
             s =s[1:]
     return out_list
 
@@ -63,7 +63,7 @@ tests = [
 ]
 
 for line in tests:
-    moutput = CutOneLineTokens(line)
+    out = CutOneLineTokens(line)
     print(f"Test input string: {line}")
-    print(f"Output <type,token> list: {moutput}")
+    print(f"Output <type,token> list: {out}")
     print()
