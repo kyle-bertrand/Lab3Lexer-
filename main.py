@@ -64,7 +64,7 @@ tests = [
 ]
 
 for line in tests:
-    out = CutOneLineTokens(line)
+    out_list = CutOneLineTokens(line)
     print(f"Test input string: {line}")
-    print(f"Output <type,token> list: {out}")
+    print(f"Output <type,token> list: {out_list}")
     print()
