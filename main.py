@@ -68,3 +68,10 @@ for line in tests:
     print(f"Test input string: {line}")
     print(f"Output <type,token> list: {out_list}")
     print()
+
+
+# thing from GUIexample
+if __name__ == '__main__':
+    myTkRoot = Tk()
+    my_gui = MyFirstGUI(myTkRoot)
+    myTkRoot.mainloop()
