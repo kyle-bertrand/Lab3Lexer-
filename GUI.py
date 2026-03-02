@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import re
 
 class LexerGUI:
         def __init__(self, root):
@@ -28,12 +29,47 @@ class LexerGUI:
                 self.src_text.grid(row=2, column=0, padx=10)
 
                 #output text
+                self.output_text = Text(self.master, width=60, height=20, state=DISABLED)
+                self.output_text.grid(row=2, column=1, padx=10)
+
+                #current line label
+                Label(self.master, text="").grid(row=3, column=0, padx=10, sticky=E)
+                self.line_entry = Entry(self.master, width=5, justify="center")
+                self.line_entry.insert(0, "0")
+                self.line_entry.config(state="readonly")
+                self.line_entry.grid(row=3, column=1, stickey=W)
+
                 #handle buttons
+                Button(self.master, text="Next Line", command=self.next_line).grid(row=4, column=1, padx=10)
+                Button(self.master, text="Quit", command=self.master.quit).grid(row=4, column=1, padx=10)
+
+        def next_line(self):
+                if self.current_line == 0:
+                        text = self.src_text.get("1.0", "end-1c")
+                        if not text.strip():
+                                messagebox.showerror("Error", "Please enter code.")
+                                return
+                        self.lines = text.splitlines()
+
+                if self.current_line >= len(self.lines):
+                        messagebox.showinfo("Done", "All lines processed.")
+                        return
+
+                line = self.lines[self.current_line]
+
+                tokens = self.lexer.cut_line_tokens(line)
+
+                self.output_text.config(state=NORMAL)
+                self.output_text.inset(END, f"Line {self.current_line+1}: {line}\n ")
+                self.output.test.insert(END, f"{line}\n\n")
+                self.output_test.config(state=DISABLED)
+
+                self.current_line += 1
+                self.line_var.set(str(self.current_line))
 
 
-        #def next_line(self):
-
-root = Tk()
-app = LexerGUI(root)
-root.mainloop()
+if __name__ == "__main__":
+        root = Tk()
+        app = LexerGUI(root)
+        root.mainloop()
 
