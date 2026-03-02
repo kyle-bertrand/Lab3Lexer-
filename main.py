@@ -71,7 +71,7 @@ for line in tests:
 
 
 # thing from GUIexample
-if __name__ == '__main__':
-    myTkRoot = Tk()
-    my_gui = MyFirstGUI(myTkRoot)
-    myTkRoot.mainloop()
+#if __name__ == '__main__':
+ #   myTkRoot = Tk()
+  #  my_gui = MyFirstGUI(myTkRoot)
+   # myTkRoot.mainloop()
