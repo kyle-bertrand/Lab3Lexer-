@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from main import CutOneLineTokens
 import re
 
 class LexerGUI:
@@ -13,12 +14,12 @@ class LexerGUI:
                 self.current_line = 0
 
                 #title
-                self.title_label = Label(self.master, text="Tinypie Lexer GUI", font=("Arial", 12, "bold"))
+                self.title_label = Label(self.master)
                 self.title_label.grid(row = 0, column = 0, columnspan = 2, pady=10)
 
                 #source code label
                 self.src_label = Label(self.master, text="Source Code Input:", font=("Arial", 12, "bold"))
-                self.src_label.grid(row = 1, column = 1, padx=10, sticky = W)
+                self.src_label.grid(row = 1, column = 0, padx=10, sticky = W)
 
                 #output label
                 self.output_label = Label(self.master, text="Lexical Analyzed Output:", font=("Arial", 12, "bold"))
@@ -26,7 +27,7 @@ class LexerGUI:
 
                 #input text
                 self.src_text = Text(self.master, width=60, height=20)
-                self.src_text.grid(row=2, column=0, padx=10)
+                self.src_text.grid(row=2, column=0, padx=10, pady=5, sticky="nsew")
 
                 #output text
                 self.output_text = Text(self.master, width=60, height=20, state=DISABLED)
@@ -37,7 +38,7 @@ class LexerGUI:
                 self.line_entry = Entry(self.master, width=5, justify="center")
                 self.line_entry.insert(0, "0")
                 self.line_entry.config(state="readonly")
-                self.line_entry.grid(row=3, column=1, stickey=W)
+                self.line_entry.grid(row=3, column=1, sticky=W)
 
                 #handle buttons
                 Button(self.master, text="Next Line", command=self.next_line).grid(row=4, column=1, padx=10)
