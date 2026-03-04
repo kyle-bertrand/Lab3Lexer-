@@ -41,7 +41,7 @@ class LexerGUI:
                 self.line_entry.grid(row=3, column=1, sticky=W)
 
                 #handle buttons
-                Button(self.master, text="Next Line", command=self.next_line).grid(row=4, column=1, padx=10)
+                Button(self.master, text="Next Line", command=self.next_line).grid(row=4, column=0, padx=10)
                 Button(self.master, text="Quit", command=self.master.quit).grid(row=4, column=1, padx=10)
 
         def next_line(self):
@@ -58,15 +58,18 @@ class LexerGUI:
 
                 line = self.lines[self.current_line]
 
-                tokens = self.lexer.cut_line_tokens(line)
+                tokens = CutOneLineTokens(line)
 
                 self.output_text.config(state=NORMAL)
-                self.output_text.inset(END, f"Line {self.current_line+1}: {line}\n ")
-                self.output.test.insert(END, f"{line}\n\n")
-                self.output_test.config(state=DISABLED)
+                self.output_text.insert(END, f"Line {self.current_line+1}: {line}\n ")
+                self.output_text.insert(END, f"{line}\n\n")
+                self.output_text.config(state=DISABLED)
 
                 self.current_line += 1
-                self.line_var.set(str(self.current_line))
+                self.line_entry.config(state=NORMAL)
+                self.line_entry.delete(0, END)
+                self.line_entry.insert(0, str(self.current_line))
+                self.line_entry.config(state="readonly")
 
 
 if __name__ == "__main__":
