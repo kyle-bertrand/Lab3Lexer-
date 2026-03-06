@@ -5,6 +5,7 @@ import re
 #Kyle Bertrand
 #Robert Huntington
 
+#lexer engine
 patterns = [
     ("whitespace", re.compile(r"^\s+")),
     ("String_literal", re.compile(r'^"[^"\n]*"')),
@@ -17,20 +18,22 @@ patterns = [
 ]
 
 def CutOneLineTokens(line : str) -> list[str]:
-    out_list = []
-    s = line
+    out_list = [] #list that will hold output
+    s = line #remaining text
 
-    while s:
+    while s: #loop until string s is empty
         matched = False
 
         for ttype, pat in patterns:
             moutput = pat.match(s)
             if not moutput:
-                continue
+                continue #run through all pattern options, make sure the patterns all start with ^
 
-            tok = moutput.group(0)
+            tok = moutput.group(0) #extract token if match found
 
-            if ttype != "whitespace":
+            if ttype != "whitespace": #ignore whitespaces so the output doesn't add them
+
+                #rename patterns for output
                 type_map = {
                     "String_literal" : "lit",
                     "Float_literal": "lit",
@@ -42,16 +45,17 @@ def CutOneLineTokens(line : str) -> list[str]:
                 }
                 out_list.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
-            s = s[moutput.end():]
+            s = s[moutput.end():] #s assigns to right after match for next
             matched = True
-            break
+            break #stop checking patterns b/c found next token
 
+        # keeps loop from getting stuck on unknown characters
         if not matched:
             out_list.append(f"<unknown,{s[0]}>")
             s = s[1:]
     return out_list
 
-
+# GUI
 class LexerGUI:
         def __init__(self, root):
                 self.master = root
