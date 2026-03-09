@@ -1,7 +1,4 @@
 import re
-from tkinter import messagebox
-from tkinter import *
-
 #Kyle Bertrand
 #Robert Huntington
 
@@ -72,8 +69,3 @@ for line in tests:
     print()
 
 
-# thing from GUIexample
-#if __name__ == '__main__':
- #   myTkRoot = Tk()
-  #  my_gui = MyFirstGUI(myTkRoot)
-   # myTkRoot.mainloop()
