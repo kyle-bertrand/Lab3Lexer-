@@ -87,7 +87,7 @@ class LexerGUI:
                 self.output_text.grid(row=2, column=1, padx=10)
 
                 #current line label
-                Label(self.master, text="").grid(row=3, column=0, padx=10, sticky=E)
+                Label(self.master, text="Current Line:").grid(row=3, column=0, padx=10, sticky=E)
                 self.line_entry = Entry(self.master, width=5, justify="center")
                 self.line_entry.insert(0, "0")
                 self.line_entry.config(state="readonly")
