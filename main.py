@@ -1,3 +1,4 @@
+
 from tkinter import *
 from tkinter import messagebox
 import re
@@ -17,6 +18,17 @@ patterns = [
     ("Identifier", re.compile(r"^[A-Za-z_][A-Za-z0-9_]*"))
 ]
 
+# rename patterns for output
+type_map = {
+    "String_literal": "lit",
+    "Float_literal": "lit",
+    "Int_literal": "lit",
+    "Operator": "op",
+    "Seperator": "sep",
+    "Keyword": "key",
+    "Identifier": "id",
+}
+
 def CutOneLineTokens(line : str) -> list[str]:
     out_list = [] #list that will hold output
     s = line #remaining text
@@ -33,16 +45,6 @@ def CutOneLineTokens(line : str) -> list[str]:
 
             if ttype != "whitespace": #ignore whitespaces so the output doesn't add them
 
-                #rename patterns for output
-                type_map = {
-                    "String_literal" : "lit",
-                    "Float_literal": "lit",
-                    "Int_literal": "lit",
-                    "Operator": "op",
-                    "Seperator": "sep",
-                    "Keyword": "key",
-                    "Identifier": "id",
-                }
                 out_list.append(f"<{type_map.get(ttype,ttype)},{tok}>")
 
             s = s[moutput.end():] #s assigns to right after match for next
@@ -54,6 +56,15 @@ def CutOneLineTokens(line : str) -> list[str]:
             out_list.append(f"<unknown,{s[0]}>")
             s = s[1:]
     return out_list
+
+#Parser
+class Parser:
+        def __init__(self, tokens):
+            self.tokens = tokens #list for <type,val> strings
+            self.pos = 0
+            self.output = []  #lones for formatted parse tree
+            self.indent = 0
+
 
 # GUI
 class LexerGUI:
