@@ -26,8 +26,9 @@ class Parser:
         def num(self):
             self.log("\n  ---parent node num, finding children nodes:")
             if self.inTokens[0] == "lit":
-                self.log("    child node(internal): lit")
-                self.log("    lit has child node(token): " + self.inTokens[1])
+                lit_type = "float" if "." in self.inTokens[1] else "int"
+                self.log("    child node(internal): " + lit_type)
+                self.log("    " + lit_type + " has child node(token): " + self.inTokens[1])
                 self.accept_tokens()
             else:
                 self.log("    error: num expects int or float, got: " + self.inTokens[1])
@@ -61,6 +62,7 @@ class Parser:
         def exp(self):
             self.log("\n---parent node exp, finding children nodes:")
             if self.inTokens[0] == "key":
+                self.log("  ---parent node type, finding children nodes:")  # ← added
                 self.log("  child node(internal): type")
                 self.log("    type has child node(token): " + self.inTokens[1])
                 self.accept_tokens()
@@ -137,8 +139,9 @@ class Parser:
                 self.accept_tokens()
 
             if self.inTokens[0] == "lit":
-                self.log("  child node(internal): lit")
-                self.log("    lit has child node(token): " + self.inTokens[1])
+                lit_type = "float" if "." in self.inTokens[1] else "int"  # ← added
+                self.log("    child node(internal): " + lit_type)  # ← changed
+                self.log("    " + lit_type + " has child node(token): " + self.inTokens[1])
                 self.accept_tokens()
 
             if self.inTokens[1] == ")":
