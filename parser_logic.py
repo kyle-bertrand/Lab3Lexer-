@@ -58,11 +58,10 @@ class Parser:
             else:
                 self.log("  math ends (no + found)")
 
-        # BNF: exp -> type id = math
+        # BNF: exp -> type id = math ;
         def exp(self):
             self.log("\n---parent node exp, finding children nodes:")
             if self.inTokens[0] == "key":
-                self.log("  ---parent node type, finding children nodes:")  # ← added
                 self.log("  child node(internal): type")
                 self.log("    type has child node(token): " + self.inTokens[1])
                 self.accept_tokens()
@@ -87,6 +86,12 @@ class Parser:
 
             self.log("  child node(internal): math")
             self.math()
+
+            if self.inTokens[1] == ";":
+                self.log("  child node(token): " + self.inTokens[1])
+                self.accept_tokens()
+
+            self.log("  exp done")
 
         #BNF: comparison_exp -> identifier > identifier
         def comparison_exp(self):
@@ -128,7 +133,7 @@ class Parser:
 
             self.log("  if_exp done")
 
-        # BNF: print_exp -> print ( lit ) ;
+        # BNF: print_exp -> print ( string_lit ) ;
         def print_exp(self):
             self.log("\n---parent node print_exp, finding children nodes:")
             self.log("  child node(token): " + self.inTokens[1])
@@ -139,9 +144,15 @@ class Parser:
                 self.accept_tokens()
 
             if self.inTokens[0] == "lit":
-                lit_type = "float" if "." in self.inTokens[1] else "int"  # ← added
-                self.log("    child node(internal): " + lit_type)  # ← changed
-                self.log("    " + lit_type + " has child node(token): " + self.inTokens[1])
+                val = self.inTokens[1]
+                if val.startswith('"') or val.startswith("'"):
+                    lit_type = "string"
+                elif "." in val:
+                    lit_type = "float"
+                else:
+                    lit_type = "int"
+                self.log("    child node(internal): " + lit_type)
+                self.log("    " + lit_type + " has child node(token): " + val)
                 self.accept_tokens()
 
             if self.inTokens[1] == ")":
